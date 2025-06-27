@@ -228,3 +228,4 @@ D:\ITI\WebApi day2\TrainingSystemMVC\TrainingSystemMVC\bin\Debug\net8.0\runtimes
 D:\ITI\WebApi day2\TrainingSystemMVC\TrainingSystemMVC\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
 D:\ITI\WebApi day2\TrainingSystemMVC\TrainingSystemMVC\obj\Debug\net8.0\TrainingSystemMVC.csproj.AssemblyReference.cache
 D:\ITI\WebApi day2\TrainingSystemMVC\TrainingSystemMVC\obj\Debug\net8.0\Training.5CA755FF.Up2Date
+D:\ITI\WebApi day2\TrainingSystemMVC\TrainingSystemMVC\obj\Debug\net8.0\TrainingSystemMVC.sourcelink.json

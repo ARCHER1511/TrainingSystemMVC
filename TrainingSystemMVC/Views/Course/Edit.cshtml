@@ -3,7 +3,6 @@
 <h2>Edit Course</h2>
 
 <form asp-action="Edit" method="post">
-    @Html.AntiForgeryToken()
     <div class="form-group">
         <label asp-for="Title" class="control-label"></label>
         <input asp-for="Title" class="form-control" />
@@ -14,8 +13,12 @@
         <input asp-for="InstructorId" class="form-control" />
         <span asp-validation-for="InstructorId" class="text-danger"></span>
     </div>
-    <input type="submit" value="Save" class="btn btn-primary" />
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+    </div>
+    
 </form>
 
-<a asp-action="Index">Back to List</a>
+
 

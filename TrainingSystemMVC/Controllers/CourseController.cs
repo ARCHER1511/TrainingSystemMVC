@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Json;
 using System.Text.Json;
 using TrainingSystemMVC.Models;
 using TrainingSystemMVC.ViewModel;
@@ -48,7 +49,6 @@ namespace TrainingSystemMVC.Controllers
             return View();
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CourseAddViewModel course)
         {
             if (!ModelState.IsValid)
@@ -58,16 +58,16 @@ namespace TrainingSystemMVC.Controllers
             var response = await client.PostAsJsonAsync("Course/Add", new CourseAddViewModel
             {
                 Title = course.Title,
-                InstructorId = course.InstructorId 
+                InstructorId = course.InstructorId
             });
 
             if (!response.IsSuccessStatusCode)
                 return View("Error");
-            
+
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Course/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var client = _httpClientFactory.CreateClient("TrainingSystemAPI");
@@ -77,17 +77,16 @@ namespace TrainingSystemMVC.Controllers
                 return View("Error");
 
             var json = await response.Content.ReadAsStringAsync();
-            var wrapper = JsonSerializer.Deserialize<GeneralResponse<CourseEditViewModel>>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
 
-            return View(wrapper?.Data);
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            var wrapper = JsonSerializer.Deserialize<GeneralResponse<CourseEditViewModel>>(json, options);
+
+            //if (wrapper == null || wrapper.Data == null)
+            //    return View("Error");
+
+            return View(wrapper.Data);
         }
-
-        // POST: Course/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, CourseEditViewModel course)
         {
             if (!ModelState.IsValid)
@@ -101,7 +100,20 @@ namespace TrainingSystemMVC.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        public async Task<IActionResult> Delete(int Id)
+        {
+            var client = _httpClientFactory.CreateClient("TrainingSystemAPI");
+            var response = await client.DeleteAsync($"Course/Delete/{Id}");
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["Message"] = "Course deleted successfully.";
+            }
+            else
+            {
+                TempData["Error"] = "Failed to delete course.";
+            }
 
-
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

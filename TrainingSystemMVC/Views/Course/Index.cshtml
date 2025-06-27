@@ -9,9 +9,14 @@
                 <td>@course.CourseName</td>
                 <td>@course.InstructorName</td>
                 <td>
-                    <a asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">View Details</a>
+                    <a asp-controller="Course" asp-action="Details" asp-route-id="@course.Id" class="btn btn-primary">View Details</a>
+                    <a asp-controller="Course" asp-action="Edit" asp-route-id="@course.Id" class="btn btn-secondary">Edit</a>
+                    <a asp-controller="Course" asp-action="Delete" asp-route-id="@course.Id" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<div>
+    <a asp-controller="Course" asp-action="Create" class="btn btn-success">Create New Course</a>
+</div>
