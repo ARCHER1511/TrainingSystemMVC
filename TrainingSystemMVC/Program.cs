@@ -1,3 +1,9 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using TrainingSystemMVC.Services;
+
 namespace TrainingSystemMVC
 {
     public class Program
@@ -12,8 +18,20 @@ namespace TrainingSystemMVC
             {
                 client.BaseAddress = new Uri("http://localhost:5090/api/"); // Adjust the base address as needed
             });
-            var app = builder.Build();
+            builder.Services.AddHttpClient<AuthService>(client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:5090/api/Authentication/");
+            });
 
+            builder.Services.AddHttpContextAccessor();
+
+            builder.Services.AddSession();
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                            .AddCookie();
+
+
+            var app = builder.Build();
+            app.UseSession();
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -26,7 +44,7 @@ namespace TrainingSystemMVC
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
